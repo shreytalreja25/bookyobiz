@@ -1,9 +1,12 @@
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { useAuth } from '../auth.jsx'
 import { getAvailableBusinessTypes, getThemeClassFor, loadSelectedBusinessType, saveSelectedBusinessType } from '../theme.js'
 
 export default function Layout() {
   const businessTypes = getAvailableBusinessTypes()
   const current = loadSelectedBusinessType()
+  const location = useLocation()
+  const { user, logout } = useAuth() || { user: null, logout: () => {} }
 
   function onChange(e) {
     saveSelectedBusinessType(e.target.value)
@@ -17,13 +20,23 @@ export default function Layout() {
     <div className={themeClass}>
       <header className="site-header">
         <div className="container header-inner">
-          <Link to="/" className="brand">BookYoBiz</Link>
+          <Link to={{ pathname: '/', search: `?type=${current}` }} className="brand">BookYoBiz</Link>
           <nav className="nav">
-            <NavLink to="/" end>Home</NavLink>
-            <NavLink to="/app">Client</NavLink>
-            <NavLink to="/admin">Admin</NavLink>
+            <NavLink to={{ pathname: '/', search: `?type=${current}` }} end>Home</NavLink>
+            <NavLink to={{ pathname: '/app', search: `?type=${current}` }}>Client</NavLink>
+            {!user && <NavLink to={{ pathname: '/login', search: `?type=${current}` }}>Login</NavLink>}
+            {!user && <NavLink to={{ pathname: '/register', search: `?type=${current}` }}>Register</NavLink>}
+            {user && (['owner','staff'].includes(user.role)) && (
+              <NavLink to={{ pathname: '/admin', search: `?type=${current}` }}>Admin</NavLink>
+            )}
+            {user && <button className="btn" onClick={logout}>Logout</button>}
           </nav>
           <div className="theme-picker">
+            {user && (
+              <div className="user-badge" title={user.email}>
+                {user.email} ({user.role})
+              </div>
+            )}
             <label htmlFor="biz">Business</label>
             <select id="biz" defaultValue={current} onChange={onChange}>
               {businessTypes.map((t) => (

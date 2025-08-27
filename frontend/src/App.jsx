@@ -3,6 +3,10 @@ import Client from './pages/Client.jsx'
 import Admin from './pages/Admin.jsx'
 import './App.css'
 import Layout from './components/Layout.jsx'
+import { AuthProvider, RequireAuth } from './auth.jsx'
+import Login from './pages/Login.jsx'
+import Register from './pages/Register.jsx'
+import Browse from './pages/Browse.jsx'
 
 function Landing() {
   return (
@@ -70,13 +74,18 @@ function Landing() {
 
 function App() {
   return (
-    <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Landing />} />
-        <Route path="/app" element={<Client />} />
-        <Route path="/admin" element={<Admin />} />
-      </Route>
-    </Routes>
+    <AuthProvider>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Landing />} />
+          <Route path="/browse" element={<Browse />} />
+          <Route path="/app" element={<Client />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/admin" element={<RequireAuth><Admin /></RequireAuth>} />
+        </Route>
+      </Routes>
+    </AuthProvider>
   )
 }
 
