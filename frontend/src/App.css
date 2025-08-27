@@ -1,8 +1,9 @@
 /* Base layout */
-#root {
+/* Containers */
+.container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
 }
 
 .landing {
@@ -64,4 +65,164 @@
 .footer {
   text-align: center;
   color: #888;
+}
+
+/* Global vertical rhythm */
+main.container {
+  padding-block: 2rem;
+}
+.section {
+  margin-block: 2rem;
+}
+.hero {
+  margin-top: 1rem;
+}
+
+/* Header */
+.site-header {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1rem;
+}
+.brand {
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--color-foreground);
+}
+.nav {
+  display: flex;
+  gap: 1rem;
+}
+.nav a {
+  color: var(--color-foreground);
+  text-decoration: none;
+}
+.nav a.active {
+  text-decoration: underline;
+}
+.theme-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  color: var(--color-foreground);
+  text-decoration: none;
+}
+.btn.primary {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+/* Footer spacing */
+.footer.container {
+  padding-block: 2rem 3rem;
+}
+
+/* Card-like header on light themes */
+.theme-salon .site-header,
+.theme-spa .site-header,
+.theme-nails .site-header,
+.theme-plumber .site-header {
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+/* Theme Variables */
+.theme-default {
+  --color-background: #0f0f0f;
+  --color-foreground: #e8e8e8;
+  --color-surface: #161616;
+  --color-border: #2a2a2a;
+  --color-accent: #646cff;
+}
+
+.theme-barber {
+  --color-background: #0a0a0a;
+  --color-foreground: #f5f5f5;
+  --color-surface: #131313;
+  --color-border: #2a2a2a;
+  --color-accent: #c9a227; /* gold */
+}
+
+.theme-salon {
+  --color-background: #ffffff;
+  --color-foreground: #3a2f4f; /* lilac-dark */
+  --color-surface: #f3ecff;
+  --color-border: #e3d7ff;
+  --color-accent: #a78bfa;
+}
+
+.theme-spa {
+  --color-background: #ffffff;
+  --color-foreground: #1f3d2b;
+  --color-surface: #e9f6ee;
+  --color-border: #cfead9;
+  --color-accent: #2e7d32;
+}
+
+.theme-tattoo {
+  --color-background: #0a0a0a;
+  --color-foreground: #f5f5f5;
+  --color-surface: #131313;
+  --color-border: #2a2a2a;
+  --color-accent: #e11d48; /* red */
+}
+
+.theme-massage {
+  --color-background: #ffffff;
+  --color-foreground: #2f3b2f;
+  --color-surface: #f3f1ea;
+  --color-border: #e3decd;
+  --color-accent: #7aa874;
+}
+
+.theme-fitness {
+  --color-background: #0a122a;
+  --color-foreground: #e6f6ff;
+  --color-surface: #0f1833;
+  --color-border: #1f2850;
+  --color-accent: #39ff14; /* neon green */
+}
+
+.theme-nails {
+  --color-background: #ffffff;
+  --color-foreground: #8a2948;
+  --color-surface: #ffe6f1;
+  --color-border: #ffd1e6;
+  --color-accent: #ff5fa2;
+}
+
+.theme-electrician {
+  --color-background: #0a0a0a;
+  --color-foreground: #f8f8f8;
+  --color-surface: #131313;
+  --color-border: #2a2a2a;
+  --color-accent: #facc15; /* yellow */
+}
+
+.theme-plumber {
+  --color-background: #ffffff;
+  --color-foreground: #153e75;
+  --color-surface: #e8f1ff;
+  --color-border: #cfe2ff;
+  --color-accent: #2563eb; /* blue */
+}
+
+/* Apply theme background/foreground */
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
 }

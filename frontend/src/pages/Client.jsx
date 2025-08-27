@@ -1,9 +1,28 @@
+import { useEffect, useState } from 'react'
+import { apiGet } from '../apiClient.js'
+
 export default function Client() {
+  const [health, setHealth] = useState('checking...')
+
+  useEffect(() => {
+    let cancelled = false
+    apiGet('/health')
+      .then((d) => {
+        if (!cancelled) setHealth(d?.status || 'ok')
+      })
+      .catch(() => {
+        if (!cancelled) setHealth('unreachable')
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
   return (
-    <main className="section">
+    <section className="section">
       <h2>Client App</h2>
-      <p>Client portal coming soon.</p>
-    </main>
+      <p>Backend health: {health}</p>
+    </section>
   )
 }
 

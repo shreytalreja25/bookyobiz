@@ -2,6 +2,7 @@ import { Link, Route, Routes } from 'react-router-dom'
 import Client from './pages/Client.jsx'
 import Admin from './pages/Admin.jsx'
 import './App.css'
+import Layout from './components/Layout.jsx'
 
 function Landing() {
   return (
@@ -70,9 +71,11 @@ function Landing() {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/app" element={<Client />} />
-      <Route path="/admin" element={<Admin />} />
+      <Route element={<Layout />}>
+        <Route path="/" element={<Landing />} />
+        <Route path="/app" element={<Client />} />
+        <Route path="/admin" element={<Admin />} />
+      </Route>
     </Routes>
   )
 }
