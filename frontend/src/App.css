@@ -18,6 +18,7 @@
   --space-6: 1.5rem;
   --radius-6: 6px;
   --radius-8: 8px;
+  --radius-12: 12px;
   --shadow-1: 0 2px 8px rgba(0,0,0,0.12);
 }
 /* Base layout */
@@ -105,6 +106,7 @@ main.container {
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
 }
+.navbar { padding-block: 0.5rem; }
 .header-inner {
   display: flex;
   align-items: center;
@@ -156,6 +158,8 @@ main.container {
   color: #fff;
   border-color: var(--color-accent);
 }
+.btn.primary:hover { background: var(--color-accent-hover, var(--color-accent)); border-color: var(--color-accent-hover, var(--color-accent)); }
+button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
 /* Footer spacing */
 .footer.container {
@@ -179,7 +183,7 @@ main.container {
   margin-bottom: 1rem;
   flex-wrap: wrap;
 }
-.browse-toolbar .input, input[type="text"], input[type="date"], input[type="password"], input[type="email"], .form-control {
+.browse-toolbar .input, input[type="text"], input[type="date"], input[type="password"], input[type="email"], .form-control, textarea.form-control {
   flex: 1;
   min-width: 240px;
   padding: 0.5rem 0.75rem;
@@ -207,7 +211,7 @@ main.container {
 .map-placeholder { height: 100%; display: grid; place-items: center; color: #9aa3ab; font-size: 0.95rem; }
 .map-selected { position: absolute; top: 0.75rem; left: 0.75rem; background: rgba(0,0,0,0.5); color: #fff; padding: 0.25rem 0.5rem; border-radius: 6px; }
 
-.biz-card { border: 1px solid var(--color-border); border-radius: var(--radius-8); padding: var(--space-4); background: var(--color-surface); box-shadow: var(--shadow-1); border-left: 3px solid var(--color-accent); }
+.biz-card { border: 1px solid var(--color-border); border-radius: var(--radius-12); padding: var(--space-4); background: var(--color-surface); box-shadow: var(--shadow-1); border-left: 3px solid var(--color-accent); }
 .biz-card-title { font-weight: 700; }
 .biz-card-sub { color: #b4b7bd; font-size: 0.92rem; margin-top: 0.25rem; }
 .badge { display: inline-block; margin-top: 0.5rem; background: var(--color-accent); color: #fff; padding: 0.15rem 0.4rem; border-radius: 6px; font-size: 0.8rem; }
@@ -222,7 +226,7 @@ main.container {
   border: 1px solid var(--color-border);
 }
 .wall { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
-.post-card { border: 1px solid var(--color-border); border-radius: var(--radius-8); padding: var(--space-4); background: var(--color-surface); box-shadow: var(--shadow-1); }
+.post-card { border: 1px solid var(--color-border); border-radius: var(--radius-12); padding: var(--space-4); background: var(--color-surface); box-shadow: var(--shadow-1); }
 .post-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
 .post-text { white-space: pre-wrap; line-height: 1.5; color: var(--color-foreground); opacity: 0.95; }
 .post-actions { margin-top: 0.25rem; }
@@ -237,11 +241,12 @@ main.container {
 }
 
 .theme-barber {
-  --color-background: #0a0a0a;
-  --color-foreground: #f5f5f5;
-  --color-surface: #131313;
-  --color-border: #2a2a2a;
-  --color-accent: #c9a227; /* gold */
+  /* Black & Gold Elegance palette */
+  --color-background: #000000; /* black */
+  --color-foreground: #FFFFFF; /* white */
+  --color-surface: #14213D;   /* deep navy */
+  --color-border: #E5E5E5;    /* light gray */
+  --color-accent: #FCA311;    /* gold */
 }
 
 .theme-salon {
@@ -268,6 +273,22 @@ main.container {
   --color-accent: #e11d48; /* red */
 }
 
+/* Parallax tattoo background (tattoo theme only) */
+.theme-tattoo body {
+  background-attachment: fixed;
+  background-image: url('/src/assets/tattoo/tattoo.png');
+  background-repeat: repeat-y;
+  background-position: right center;
+  background-size: 260px auto;
+}
+
+@media (max-width: 900px) {
+  .theme-tattoo body {
+    background-size: 160px auto;
+    background-position: right top;
+  }
+}
+
 .theme-massage {
   --color-background: #ffffff;
   --color-foreground: #2f3b2f;
@@ -285,11 +306,13 @@ main.container {
 }
 
 .theme-nails {
-  --color-background: #ffffff;
-  --color-foreground: #8a2948;
-  --color-surface: #ffe6f1;
-  --color-border: #ffd1e6;
-  --color-accent: #ff5fa2;
+  /* Pastel Dreamland Adventure palette */
+  --color-background: #FFFFFF;
+  --color-foreground: #8a2948; /* keep contrast for readability */
+  --color-surface: #FFE0EC;   /* lighter soft pink for inputs/cards */
+  --color-border: #FFAFCC;    /* pink */
+  --color-accent: #A2D2FF;    /* pastel blue accent */
+  --color-accent-hover: #8bbcf2;
 }
 
 .theme-electrician {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { apiGet, apiPost, setAuthToken } from '../apiClient.js'
+import { apiGet, apiPost } from '../apiClient.js'
+import { useAuth } from '../auth.jsx'
 
 export default function Client() {
   const [health, setHealth] = useState('checking...')
@@ -8,6 +9,8 @@ export default function Client() {
   const [date, setDate] = useState('')
   const [slots, setSlots] = useState([])
   const [loadingSlots, setLoadingSlots] = useState(false)
+  const [authMsg, setAuthMsg] = useState('')
+  const auth = useAuth()
 
   useEffect(() => {
     let cancelled = false
@@ -30,17 +33,28 @@ export default function Client() {
 
       <div className="card" style={{ marginTop: '1rem', textAlign: 'left' }}>
         <h3>Register / Login</h3>
+        {auth.user && (
+          <div style={{ marginBottom: '0.5rem' }}>
+            <span className="user-badge">{auth.user.email} ({auth.user.role})</span>
+            <button className="btn" style={{ marginLeft: '0.5rem' }} onClick={() => { auth.logout(); setAuthMsg('Logged out'); }}>Logout</button>
+          </div>
+        )}
+        {authMsg && <div style={{ color: 'var(--color-foreground)', opacity: 0.9, marginBottom: '0.25rem' }}>{authMsg}</div>}
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
-          <input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <input placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} disabled={!!auth.user} />
+          <input placeholder="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} disabled={!!auth.user} />
           <button onClick={async () => {
-            const r = await apiPost('/auth/register', { email, password })
-            alert('Registered: ' + (r?.email || 'ok'))
-          }}>Register</button>
+            try {
+              const ok = await auth.register(email, password)
+              setAuthMsg(ok ? 'Registered and logged in' : 'Registration failed')
+            } catch { setAuthMsg('Registration failed') }
+          }} disabled={!!auth.user}>Register</button>
           <button onClick={async () => {
-            const r = await apiPost('/auth/login', { email, password })
-            if (r?.token) { setAuthToken(r.token); alert('Logged in') } else { alert('Login failed') }
-          }}>Login</button>
+            try {
+              const ok = await auth.login(email, password)
+              setAuthMsg(ok ? 'Logged in' : 'Login failed')
+            } catch { setAuthMsg('Login failed') }
+          }} disabled={!!auth.user}>Login</button>
         </div>
       </div>
 

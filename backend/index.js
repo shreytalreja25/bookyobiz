@@ -79,6 +79,7 @@ app.use('/services', makeCrudRouter('services'));
 app.use('/staff', makeCrudRouter('staff'));
 app.use('/appointments', makeCrudRouter('appointments'));
 app.use('/availability', require('./routes/availability.routes.js'));
+app.use('/businesses', require('./routes/businesses.routes.js'));
 
 const HOST = '0.0.0.0';
 app.listen(PORT, HOST, () => {

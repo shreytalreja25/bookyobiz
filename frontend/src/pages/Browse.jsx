@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { apiGet } from '../apiClient.js'
 import { useSearchParams } from 'react-router-dom'
 
 function emojiFor(vertical) {
@@ -47,22 +48,46 @@ function MapPlaceholder({ selected }) {
   )
 }
 
-const MOCK = [
-  { id: '1', name: 'Sharp Fade Barbers', vertical: 'barber', rating: 4.6, distanceKm: 1.2, promo: { title: '10% off first cut' } },
-  { id: '2', name: 'Glow Salon', vertical: 'salon', rating: 4.8, distanceKm: 2.9 },
-  { id: '3', name: 'Zen Spa', vertical: 'spa', rating: 4.7, distanceKm: 3.4, promo: { title: 'Free massage add-on' } },
-]
+const MOCK = []
 
 export default function Browse() {
   const [sp] = useSearchParams()
   const type = sp.get('type') || 'barber'
   const [q, setQ] = useState('')
   const [selected, setSelected] = useState(null)
+  const [items, setItems] = useState([])
+  const [loc, setLoc] = useState(null)
 
-  const filtered = useMemo(() => {
-    const t = q.trim().toLowerCase()
-    return MOCK.filter(b => b.name.toLowerCase().includes(t) || b.vertical.toLowerCase().includes(t))
-  }, [q])
+  useEffect(() => {
+    // Try geolocation (non-blocking)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (p) => setLoc({ lat: p.coords.latitude, lng: p.coords.longitude }),
+        () => setLoc(null),
+        { enableHighAccuracy: false, maximumAge: 60000, timeout: 3000 },
+      )
+    }
+  }, [])
+
+  useEffect(() => {
+    const params = new URLSearchParams()
+    if (loc) { params.set('lat', String(loc.lat)); params.set('lng', String(loc.lng)); params.set('radiusKm', '10') }
+    if (type) params.set('vertical', type)
+    if (q.trim()) params.set('q', q.trim())
+    apiGet(`/businesses?${params.toString()}`)
+      .then((d) => setItems((d || []).map((x) => ({
+        id: x._id || x.id,
+        name: x.name,
+        vertical: x.vertical,
+        rating: x.rating || 4.5,
+        distanceKm: x.distanceKm || 0,
+        photoUrl: x.photoUrl,
+        coverUrl: x.coverUrl,
+      }))))
+      .catch(() => setItems([]))
+  }, [loc, type, q])
+
+  const filtered = items
 
   return (
     <section className="section">
