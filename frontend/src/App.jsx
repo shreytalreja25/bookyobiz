@@ -1,34 +1,79 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Link, Route, Routes } from 'react-router-dom'
+import Client from './pages/Client.jsx'
+import Admin from './pages/Admin.jsx'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function Landing() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    <main className="landing">
+      <header className="hero">
+        <h1 className="brand">BookYoBiz</h1>
+        <p className="tagline">Bookings • Jobs • Discovery • Ads</p>
+        <div className="cta">
+          <Link className="btn primary" to="/app">Enter Client</Link>
+          <Link className="btn" to="/admin">Enter Admin</Link>
+        </div>
+      </header>
+
+      <section className="section">
+        <h2>What is BookYoBiz?</h2>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          A multi-tenant growth platform for local businesses. Start with online
+          bookings and payments, expand with job postings, discovery maps, and
+          promotions. Built mobile-first with a fun, approachable brand.
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      </section>
+
+      <section className="section grid">
+        <div>
+          <h3>MVP Focus</h3>
+          <ul>
+            <li>Services, staff, availability, deposits</li>
+            <li>Admin dashboard and JWT auth</li>
+            <li>Stripe payments, email/WhatsApp reminders</li>
+            <li>Tenant-aware theming (e.g., BookYoBarber, BookYoSalon)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Phase 2</h3>
+          <ul>
+            <li>Job board for hiring</li>
+            <li>Map-based discovery</li>
+            <li>Ads & promotions</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Phase 3</h3>
+          <ul>
+            <li>AI callbacks and reply bots</li>
+            <li>Loyalty, referrals, waitlists</li>
+            <li>Mobile app and analytics</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="section">
+        <h2>Tech Stack</h2>
+        <p>
+          React (Vite) on Vercel • Node/Express on Render • MongoDB Atlas • Stripe •
+          Email/WhatsApp notifications
+        </p>
+      </section>
+
+      <footer className="footer">
+        <small>© {new Date().getFullYear()} BookYoBiz</small>
+      </footer>
+    </main>
+  )
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/app" element={<Client />} />
+      <Route path="/admin" element={<Admin />} />
+    </Routes>
   )
 }
 
