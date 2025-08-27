@@ -30,6 +30,9 @@ function BusinessCard({ biz, onHover, onClick }) {
           <div className="biz-card-sub">{biz.vertical} • {biz.distanceKm.toFixed(1)} km • ⭐ {biz.rating.toFixed(1)}</div>
           {biz.promo && <div className="badge">{biz.promo.title}</div>}
         </div>
+        <div className="biz-cta">
+          <button className="btn primary" onClick={(e) => { e.stopPropagation(); onClick?.(biz); }}>Book Now</button>
+        </div>
       </div>
     </div>
   )
@@ -75,12 +78,7 @@ export default function Browse() {
       <div className="browse-split">
         <div className="list-pane">
           {filtered.map((biz) => (
-            <div key={biz.id} className="biz-card-row">
-              <BusinessCard biz={biz} onHover={setSelected} onClick={setSelected} />
-              <div className="biz-card-actions">
-                <button className="btn primary">Book Now</button>
-              </div>
-            </div>
+            <BusinessCard key={biz.id} biz={biz} onHover={setSelected} onClick={setSelected} />
           ))}
         </div>
         <div className="map-pane">

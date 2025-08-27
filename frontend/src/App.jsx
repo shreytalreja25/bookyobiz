@@ -7,6 +7,7 @@ import { AuthProvider, RequireAuth } from './auth.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import Browse from './pages/Browse.jsx'
+import Profile from './pages/Profile.jsx'
 
 function Landing() {
   return (
@@ -82,6 +83,7 @@ function App() {
           <Route path="/app" element={<Client />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
           <Route path="/admin" element={<RequireAuth><Admin /></RequireAuth>} />
         </Route>
       </Routes>
