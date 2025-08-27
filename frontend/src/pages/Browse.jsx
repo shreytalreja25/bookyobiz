@@ -1,13 +1,36 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
+function emojiFor(vertical) {
+  const v = String(vertical || '').toLowerCase()
+  if (v.includes('barber')) return '✂️'
+  if (v.includes('salon')) return '💇‍♀️'
+  if (v.includes('spa')) return '🌿'
+  if (v.includes('tattoo')) return '🎨'
+  if (v.includes('massage')) return '💆'
+  if (v.includes('nail')) return '💅'
+  if (v.includes('fitness')) return '🏋️'
+  if (v.includes('electric')) return '⚡'
+  if (v.includes('plumb')) return '🔧'
+  return '🏷️'
+}
+
 function BusinessCard({ biz, onHover, onClick }) {
   return (
     <div className="biz-card" onMouseEnter={() => onHover?.(biz)} onClick={() => onClick?.(biz)}>
-      <div className="biz-card-title">{biz.name}</div>
-      <div className="biz-card-sub">{biz.vertical} • {biz.distanceKm.toFixed(1)} km • ⭐ {biz.rating.toFixed(1)}</div>
-      {biz.promo && <div className="badge">{biz.promo.title}</div>}
-      <button className="btn" style={{ marginTop: '0.5rem' }}>Book Now</button>
+      <div className="biz-card-cover">
+        {biz.coverUrl ? (<img src={biz.coverUrl} alt="cover" />) : (<span>{emojiFor(biz.vertical)}</span>)}
+      </div>
+      <div className="biz-card-body">
+        <div className="biz-avatar">
+          {biz.photoUrl ? (<img src={biz.photoUrl} alt={biz.name} />) : (<span>{emojiFor(biz.vertical)}</span>)}
+        </div>
+        <div className="biz-meta">
+          <div className="biz-card-title">{biz.name}</div>
+          <div className="biz-card-sub">{biz.vertical} • {biz.distanceKm.toFixed(1)} km • ⭐ {biz.rating.toFixed(1)}</div>
+          {biz.promo && <div className="badge">{biz.promo.title}</div>}
+        </div>
+      </div>
     </div>
   )
 }
@@ -52,7 +75,12 @@ export default function Browse() {
       <div className="browse-split">
         <div className="list-pane">
           {filtered.map((biz) => (
-            <BusinessCard key={biz.id} biz={biz} onHover={setSelected} onClick={setSelected} />
+            <div key={biz.id} className="biz-card-row">
+              <BusinessCard biz={biz} onHover={setSelected} onClick={setSelected} />
+              <div className="biz-card-actions">
+                <button className="btn primary">Book Now</button>
+              </div>
+            </div>
           ))}
         </div>
         <div className="map-pane">

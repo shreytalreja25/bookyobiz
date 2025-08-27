@@ -23,6 +23,7 @@ export default function Layout() {
           <Link to={{ pathname: '/', search: `?type=${current}` }} className="brand">BookYoBiz</Link>
           <nav className="nav">
             <NavLink to={{ pathname: '/', search: `?type=${current}` }} end>Home</NavLink>
+            <NavLink to={{ pathname: '/browse', search: `?type=${current}` }}>Browse</NavLink>
             <NavLink to={{ pathname: '/app', search: `?type=${current}` }}>Client</NavLink>
             {!user && <NavLink to={{ pathname: '/login', search: `?type=${current}` }}>Login</NavLink>}
             {!user && <NavLink to={{ pathname: '/register', search: `?type=${current}` }}>Register</NavLink>}
@@ -30,6 +31,7 @@ export default function Layout() {
               <NavLink to={{ pathname: '/admin', search: `?type=${current}` }}>Admin</NavLink>
             )}
             {user && <button className="btn" onClick={logout}>Logout</button>}
+            {!user && <a className="btn primary" href={`https://forms.gle/`}>List your business</a>}
           </nav>
           <div className="theme-picker">
             {user && (
